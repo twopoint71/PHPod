@@ -1,7 +1,8 @@
-# PHP Podman starter
+# PHPod
 
-A small Podman-first development stack with Nginx, PHP-FPM, PostgreSQL, and
-Redis. The application is available only on the local machine by default.
+PHPod is a small Podman-first PHP development starter with Nginx, PHP-FPM,
+PostgreSQL, and Redis. The application is available only on the local machine
+by default.
 
 ## Requirements
 
