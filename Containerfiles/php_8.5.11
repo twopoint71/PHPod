@@ -1,0 +1,20 @@
+FROM docker.io/php:8.5.11-fpm-alpine3.24
+
+# Keep build-only packages and PIE out of the final image layer.
+RUN --mount=type=bind,from=ghcr.io/php/pie:1.5.1-bin,source=/pie,target=/usr/local/bin/pie \
+    set -eux; \
+    apk add --no-cache \
+        icu-libs \
+        libpq; \
+    apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+        icu-dev \
+        postgresql-dev; \
+    docker-php-ext-install -j"$(nproc)" \
+        intl \
+        pdo_pgsql; \
+    pie install --no-cache phpredis/phpredis:6.3.0; \
+    apk del --no-network .build-deps; \
+    rm -rf /root/.pie /tmp/*
+
+WORKDIR /var/www/html
